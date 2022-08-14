@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <title>NutriPaes -  Niño(Fórmulas)</title>
+</head>
+<body>
+<style>
+@media (max-width:770px){
+.row-2,table{font-size:12px;font-weight:bold;}
+p{overflow:hidden;}
+}
+@media (max-width:380px){
+p{overflow:hidden;}
+input{width: 175px}}
+</style>
+<div class="container border bg-white rounded shadow m-0 p-0  m-auto">
+
+    <div class="row m-0 p-0">
+        <div class="col-12"><h4 class="bg-light text-center rounded fw-bold">Fórmulas para Niños (recién nacidos hasta los 10 años)</h4></div> 
+        <div class="col-12"><h5 class="text-center alert-primary p-1 text-dark fw-bold rounded fst-italic">Las siguientes fórmulas son sólo para consulta y no serán almacenadas...</h5></div> 
+    </div>
+            <article class="col-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 m-auto alert-success bg-gradient rounded text-center shadow">
+    
+                <div id="parte1" class="col-12 d-flex justify-content-center mb-4">
+                    
+                    <fieldset class="fieldset_datos">
+                    <legend class="fw-bolder text-black">Datos generales: </legend>
+
+                    <label>Sexo:</label>
+                    <select id="sexo" name="sexo">
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                    </select>
+                    <label>Edad:</label>
+                    <input id="edad" name="edad" class="w-25" placeholder="Edad">                    
+                    <label class="p-2">Fecha de nacimiento: </label>
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento">                
+                    </fieldset>
+                </div>
+                
+                <div class="row d-inline-block">
+                    <fieldset class="fieldset_indicadores">
+                    <legend class="fw-bolder text-black">Indicadores antropométricos:</legend>
+                </div>
+                <div class="alert alert-secondary shadow" role="alert">
+                <div class="col-12 col-sm-6 col-lg-4">
+                <div class="row mt-2">
+                    <div class="col-3 col-sm-6 col-lg-9"><label class="text-black">Longitud</label></div>
+                    <div class="col-4 col-sm-6 col-lg-3"> <input id="talla" name="talla" placeholder="Talla" onkeyup="calcularFormulas()"></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3 col-sm-6 col-lg-9"><label class="text-black">Peso</label></div>
+                    <div class="col-3 col-sm-6 col-lg-3"><input id="peso" name="peso" placeholder="Kg" onkeyup="calcularFormulas()"></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3 col-sm-6 col-lg-9"><label class="text-black">IMC</label></div>
+                    <div class="col-4 col-sm-6 col-lg-3" ><input id="valor_imc" name="valor_imc" placeholder="Kg/m²"></div>
+                </div>
+                    </fieldset>
+                </div>
+            </div>
+                                
+        <div class="row">
+            <div class="col-12 mb-3">
+                <button id="obtener_d" name="obtener_d"  class="obtener_datos p-2 rounded fw-bolder btn-primary bg-gradient" onclick="percentiles()">Calcular</button>
+            </div>    
+        </div>
+    </article>
+                    
+<article class="row row-2 m-auto mt-5 text-center">
+<div class="shadow p-3">
+    <div class="col-12 alert-primary text-center text-black fw-bolder h4 fst-italic">Longitud - Edad</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (longitud en cm)</div>
+    <!-- CUADRO DE 1 LONGIUD -EDAD -->
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center gy-1 m-0 p-0 justify-content-start">
+        <div id="p1_1" class="col-1"></div>
+        <div id="p1_3" class="col-1"></div>
+        <div id="p1_5" class="col-1"></div>
+        <div id="p1_15" class="col-1"></div>
+        <div id="p1_25" class="col-1"></div>
+        <div id="p1_50" class="col-2"></div>
+        <div id="p1_75" class="col-1"></div>
+        <div id="p1_85" class="col-1"></div>
+        <div id="p1_95" class="col-1"></div>
+        <div id="p1_97" class="col-1"></div>
+        <div id="p1_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0 m-0 d-flex flex-wrap">
+        <div class="col-2 alert-warning"><p>Des nutrición</p></div>
+        <div class="col-10 alert-success"><p>Normal</p></div>
+    </div>
+</div>
+<!-- CUADRO DE 2 PESO -EDAD -->
+<div class="shadow p-3">
+    <div class="col-12 alert-primary mt-5 text-center text-black fw-bolder h4 fst-italic">Peso - Edad</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (peso en kg)</div>
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center m-0 p-0 gy-1">
+        <div id="p2_1" class="col-1"></div>
+        <div id="p2_3" class="col-1"></div>
+        <div id="p2_5" class="col-1"></div>
+        <div id="p2_15" class="col-1"></div>
+        <div id="p2_25" class="col-1"></div>
+        <div id="p2_50" class="col-2"></div>
+        <div id="p2_75" class="col-1"></div>
+        <div id="p2_85" class="col-1"></div>
+        <div id="p2_95" class="col-1"></div>
+        <div id="p2_97" class="col-1"></div>
+        <div id="p2_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0">
+        <div class="col-2 alert-warning"><p>Des nutrición</p></div>
+        <div class="col-8 alert-success"><p>Normal</p></div>
+        <div class="col-2 alert-danger"><p>Obesidad</p></div>
+    </div>
+    
+</div>
+ <!-- CUADRO DE 3 IMC -EDAD -->
+<div class="shadow p-3">
+    <div class="col-12 alert-primary mt-5 text-center text-black fw-bolder h4 fst-italic">IMC - Edad</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (IMC en kg-m²)</div>
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center m-0 gy-1">
+        <div id="p3_5" class="col-1"></div>
+        <div id="p3_3" class="col-1"></div>
+        <div id="p3_1" class="col-1"></div>
+        <div id="p3_15" class="col-1"></div>
+        <div id="p3_25" class="col-1"></div>
+        <div id="p3_50" class="col-2"></div>
+        <div id="p3_75" class="col-1"></div>
+        <div id="p3_85" class="col-1"></div>
+        <div id="p3_95" class="col-1"></div>
+        <div id="p3_97" class="col-1"></div>
+        <div id="p3_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0">
+        <div class="col-2 alert-warning"><p>Bajo Peso</p></div>
+        <div class="col-6 alert-success"><p>Normal</p></div>
+        <div class="col-2 alert-warning"><p>Riesgo</p></div>
+        <div class="col-2 alert-danger"><p>Obesidad</p></div>
+    </div>
+</div>
+ <!-- CUADRO DE 4 CIRCUNFERENCIA -EDAD -->
+<div class="shadow p-3 mb-5">
+    <div class="col-12 alert-primary mt-5 text-center text-black fw-bolder h4 fst-italic">Circunferencia de brazo - Edad</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (circunferencia de brazo en cm)</div>
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center m-0 gy-1">
+        <div id="p4_1" class="col-1"></div>
+        <div id="p4_3" class="col-1"></div>
+        <div id="p4_5" class="col-1"></div>
+        <div id="p4_15" class="col-1"></div>
+        <div id="p4_25" class="col-1"></div>
+        <div id="p4_50" class="col-2"></div>
+        <div id="p4_75" class="col-1"></div>
+        <div id="p4_85" class="col-1"></div>
+        <div id="p4_95" class="col-1"></div>
+        <div id="p4_97" class="col-1"></div>
+        <div id="p4_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0 d-flex">
+        <div class="col-2 alert-warning"><p>Riesgo de Des nutrición</p></div>
+        <div class="col-8 alert-success"><p>Normal</p></div>
+        <div class="col-2 alert-danger"><p>Obesidad Hipertrofia</p></div>
+    </div>
+</div>
+
+<div class="row m-0 p-0">
+    <div class="col-12"><h4 class="bg-light text-center rounded fw-bold">Valores sólo para menores de 5 años</h4></div>
+</div>
+ <!-- CUADRO DE 5 CEFALICA - EDAD -->
+<div class="shadow p-3">
+    <div class="col-12 alert-primary mt-5 text-center text-black fw-bolder h4 fst-italic">Circunferencia cefálica - Edad</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (circunferencia cefálica en cm)</div>
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center m-0 gy-1">
+        <div id="p5_1" class="col-1"></div>
+        <div id="p5_3" class="col-1"></div>
+        <div id="p5_5" class="col-1"></div>
+        <div id="p5_15" class="col-1"></div>
+        <div id="p5_25" class="col-1"></div>
+        <div id="p5_50" class="col-2"></div>
+        <div id="p5_75" class="col-1"></div>
+        <div id="p5_85" class="col-1"></div>
+        <div id="p5_95" class="col-1"></div>
+        <div id="p5_97" class="col-1"></div>
+        <div id="p5_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0">
+        <div class="col-2 alert-warning"><p>Riesgo de salud</p></div>
+        <div class="col-8 alert-success"><p>Normal</p></div>
+        <div class="col-2 alert-danger"><p>Riesgo de salud</p></div>
+    </div>
+</div>
+ <!-- CUADRO DE 6 LONGIUD - PESO -->
+<div class="shadow p-3">
+    <div class="col-12 alert-primary mt-5 text-center text-black fw-bolder h4 fst-italic">Peso - Longitud</div>
+    <div class="col-12 text-center fw-lighter mb-2">Percentiles (Peso en kg)</div>
+    <div class="row text-center alert-secondary m-0 p-0 fw-bold">
+        <div class="col-1">1</div>
+        <div class="col-1">3</div>
+        <div class="col-1">5</div>
+        <div class="col-1">15</div>
+        <div class="col-1">25</div>
+        <div class="col-2">50</div>
+        <div class="col-1">75</div>
+        <div class="col-1">85</div>
+        <div class="col-1">95</div>
+        <div class="col-1">97</div>
+        <div class="col-1">99</div>
+    </div>
+    <div class="row text-center m-0 gy-1">
+        <div id="p_1" class="col-1"></div>
+        <div id="p_3" class="col-1"></div>
+        <div id="p_5" class="col-1"></div>
+        <div id="p_15" class="col-1"></div>
+        <div id="p_25" class="col-1"></div>
+        <div id="p_50" class="col-2"></div>
+        <div id="p_75" class="col-1"></div>
+        <div id="p_85" class="col-1"></div>
+        <div id="p_95" class="col-1"></div>
+        <div id="p_97" class="col-1"></div>
+        <div id="p_99" class="col-1"></div>
+    </div>
+    <div class="row m-0 p-0">
+        <div class="col-2 alert-warning"><p>Des nutrición</p></div>
+        <div class="col-8 alert-success"><p>Normal</p></div>
+        <div class="col-2 alert-danger"><p>Obesidad</p></div>
+    </div>
+</div>
+</article>
+
+
+
+
+
+
+
+                        <!-- COLUMNA 3 -->
+<div class="col-12 alert-primary bg-gradient mt-5 mb-5 text-center text-black fw-bolder h4 fst-italic">Calorias</div>
+                        <!-- SECCION 1  -->
+<article class="m-auto">
+                        <!-- TABLA NUMERO 1 -->
+<table>
+<thead>
+    <tr class="alert-success border-2"><th class="text-black h5 fw-bold p-2">Total Kcal : </th><th><input id="valor_kcal" style="width:180px" placeholder="Kcal asignadas"></th></tr>
+</thead>
+</table>
+                        <!-- TABLA NUMERO 2 -->
+<div id="table-responsive parte3">
+<table class="table table-hover" id="macros" name="macros" class="macros" onkeyup="macros()">
+<thead class="bg-primary bg-gradient  text-center text-white-50 shadow">
+    <tr>
+        <th></th>
+        <th scope="col">%</th>
+        <th scope="col">Kcal</th>
+        <th scope="col">Gr</th>
+    
+    </tr>
+</thead>
+<tbody class="text-center">
+    <tr>
+        <th><p>Carbohidratos</p></th>
+        <td><input class="w-25" id="porc_carb" placeholder="%"></td>
+        <td id="kcal_carb"></td>
+        <td id="gr_carb" class="border"></td>
+    </tr>
+    <tr>
+        <th><p>Lípidos</p></th>
+        <td><input class="w-25" id="porc_lip" placeholder="%"></td>
+        <td id="kcal_lip"></td>
+        <td id="gr_lip" class="border"></td>
+    </tr>
+    <tr>
+        <th><p>Proteínas</p></th>
+        <td><input class="w-25" id="porc_prot"placeholder="%"></td>
+        <td id="kcal_prot"></td>
+        <td id="gr_prot" class="border"></td>
+    </tr>
+</tbody>
+</table>
+<div>
+<div class="col-12 alert-primary bg-gradient mt-5 mb-5 text-center text-black fw-bolder h4 fst-italic">Convertir (gr) -> (%)
+</div>
+                            <!-- TABLA NUMERO 3 -->
+<div class="table-responsive">
+<table class="table table-hover" id="carbohidratos" name="carbohidratos" class="convertir_porciento" onkeyup="porciento_macros()">
+    <thead class="bg-primary bg-gradient text-center text-white-50 shadow">
+        <tr>
+            <th></th>
+            <th scope="col">Gr</th>
+            <th scope="col">Gr/Kg</th>
+            <th scope="col">Kcal</th>
+            <th scope="col">%</th>
+        
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        <tr>
+            <th><p>Carbohidratos</p></th>
+            <td><input class="w-50" id="gr_carb2" placeholder="gr"></td>
+            <td id="grxpeso1"></td>
+            <td id="total_kc" class="border"></td>
+            <td id="total_%c"></td>
+        </tr>
+        <tr>
+            <th><p>Lípidos</p></th>
+            <td><input class="w-50" id="gr_lip2" placeholder="gr"></td>
+            <td id="grxpeso2"></td>
+            <td id="total_kl" class="border"></td>
+            <td id="total_%l"></td>
+        </tr>
+        <tr>
+            <th><p>Proteína</p></th>
+            <td><input class="w-50" id="gr_prot2" placeholder="gr"></td>
+            <td id="grxpeso3"></td>
+            <td id="total_kp" class="border"></td>
+            <td id="total_%p"></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</article>
+</div>
+</div>
+<script type="text/javascript" src="../jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="../jquery-ui.js"></script>
+<script src="../assets/js/for_preescolar.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
+</body>
+</html>
